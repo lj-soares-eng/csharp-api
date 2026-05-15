@@ -16,6 +16,7 @@ public class AppDbContext : DbContext
     {
         modelBuilder.Entity<User>(entity =>
         {
+            entity.Property(e => e.Id).ValueGeneratedOnAdd();
             entity.Property(e => e.Name).HasMaxLength(20).IsRequired();
             entity.Property(e => e.Email).HasMaxLength(40).IsRequired();
             entity.HasIndex(e => e.Email).IsUnique();

@@ -23,7 +23,6 @@ public sealed class UserService : IUserService
 
         var user = new User
         {
-            Id = Guid.NewGuid(),
             Name = dto.Name.Trim(),
             Email = email,
             Password = BCrypt.Net.BCrypt.HashPassword(dto.Password),
@@ -53,7 +52,7 @@ public sealed class UserService : IUserService
             .ToListAsync(cancellationToken);
     }
 
-    public async Task<UserResponseDto?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+    public async Task<UserResponseDto?> GetByIdAsync(int id, CancellationToken cancellationToken = default)
     {
         return await _db.Users
             .AsNoTracking()
@@ -69,7 +68,7 @@ public sealed class UserService : IUserService
             .FirstOrDefaultAsync(cancellationToken);
     }
 
-    public async Task<UserResponseDto?> UpdateAsync(Guid id, UpdateUserDto dto, CancellationToken cancellationToken = default)
+    public async Task<UserResponseDto?> UpdateAsync(int id, UpdateUserDto dto, CancellationToken cancellationToken = default)
     {
         var user = await _db.Users.FirstOrDefaultAsync(u => u.Id == id, cancellationToken);
         if (user is null)
@@ -97,7 +96,7 @@ public sealed class UserService : IUserService
         return Map(user);
     }
 
-    public async Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken = default)
+    public async Task<bool> DeleteAsync(int id, CancellationToken cancellationToken = default)
     {
         var user = await _db.Users.FirstOrDefaultAsync(u => u.Id == id, cancellationToken);
         if (user is null)
